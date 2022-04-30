@@ -2,7 +2,7 @@
   <div class="col-md-8">
 
     <h3>Posts list</h3>
-    <a href="#" class="btn btn-primary" [routerLink]="['/posts/add']">Add post</a>
+    <a href="#" class="btn btn-primary" [routerLink]="['add']">Add post</a>
 
 
     <table class="table table-striped" *ngIf="posts$ | async as posts">
@@ -11,6 +11,7 @@
           <th>Id</th>
           <th>Title</th>
           <th>Description</th>
+          <th>Action</th>
         </tr>
       </thead>
 
@@ -19,6 +20,10 @@
           <td>{{post.id}}</td>
           <td>{{post.title}}</td>
           <td>{{post.description}}</td>
+          <td>
+            <a href="" class="btn btn-primary" [routerLink]="['edit', post.id]">Update Post</a>&nbsp;
+            <button class="btn btn-warning" (click)="onDelete(post.id)">Delete Post</button>
+          </td>
         </tr>
       </tbody>
     </table>
