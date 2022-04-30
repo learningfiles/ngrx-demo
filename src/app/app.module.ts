@@ -11,6 +11,11 @@ import { counterReducer } from './counter/state/counter.reducer';
 import { CustomCounterInputComponent } from './counter/custom-counter-input/custom-counter-input.component';
 import { FormsModule } from '@angular/forms';
 import { CustomNameComponent } from './counter/custom-name/custom-name.component';
+import { HomeComponent } from './home/home.component';
+import { HeaderComponent } from './shared/components/header/header.component';
+import { PostslistComponent } from './posts/postslist/postslist.component';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { environment } from 'src/environments/environment';
 
 @NgModule({
   declarations: [
@@ -19,13 +24,19 @@ import { CustomNameComponent } from './counter/custom-name/custom-name.component
     CounterOutputComponent,
     CounterButtonsComponent,
     CustomCounterInputComponent,
-    CustomNameComponent
+    CustomNameComponent,
+    HomeComponent,
+    HeaderComponent,
+    PostslistComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    StoreModule.forRoot({count: counterReducer})
+    StoreModule.forRoot({count: counterReducer}),
+    StoreDevtoolsModule.instrument({
+      logOnly: environment.production, // Restrict extension to log-only mod
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]
