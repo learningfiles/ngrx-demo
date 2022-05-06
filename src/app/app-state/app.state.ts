@@ -12,3 +12,8 @@ export const appReaducers = {
   count: counterReducer,
   posts: postReducer
 }
+
+export enum AppStates {
+  counter = 'count',
+  posts = 'posts'
+}
