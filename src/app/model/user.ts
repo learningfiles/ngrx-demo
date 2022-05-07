@@ -4,4 +4,8 @@ export class User {
     private token: string,
     private userId: string,
     private expirationdate: Date) { }
+
+  get expdate() {
+    return this.expirationdate;
+  }
 }

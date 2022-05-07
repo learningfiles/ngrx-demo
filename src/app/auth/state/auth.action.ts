@@ -6,6 +6,10 @@ export const LOGIN_CHECK = "[auth page] login check";
 export const LOGIN_SUCCESS = "[auth page] login success";
 export const LOGIN_FAILURE = "[auth page] login fail";
 
+export const SIGNUP_CHECK = "[auth page] signup check";
+export const SIGNUP_SUCCESS = "[auth page] signup success";
+
+export const AUTO_LOGIN = "[auth page] auto login";
 
 export const loginCheck = createAction(
   LOGIN_CHECK,
@@ -20,3 +24,15 @@ export const loginSuccess = createAction(
 export const loginFailure = createAction(
   LOGIN_FAILURE
 );
+
+export const signupCheck = createAction(
+  SIGNUP_CHECK,
+  props<{ email: string, password: string }>()
+)
+
+export const signupSuccess = createAction(
+  SIGNUP_SUCCESS,
+  props<{ auth: User }>()
+)
+
+export const autoLogin = createAction(AUTO_LOGIN);

@@ -8,3 +8,10 @@ export interface AuthResponse {
   refreshToken: string;
   registered: boolean;
 }
+export interface SignUpResponse {
+  email: string;
+  expiresIn: string;
+  idToken: string;
+  localId: string;
+  refreshToken: string;
+}
