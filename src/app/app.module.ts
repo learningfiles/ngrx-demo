@@ -1,4 +1,4 @@
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { EffectsModule } from '@ngrx/effects';
@@ -6,14 +6,13 @@ import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from 'src/environments/environment';
 import { AppRoutingModule } from './app-routing.module';
-import { appReducers as appReducers } from './app-state/app.state';
+import { appReducers } from './app-state/app.state';
 import { AppComponent } from './app.component';
 import { AuthEffects } from './auth/state/auth.effects';
-import { authReducer } from './auth/state/auth.reducer';
 import { HomeComponent } from './home/home.component';
+import { AuthTokenInterceptor } from './services/auth-token.interceptor';
 import { HeaderComponent } from './shared/components/header/header.component';
 import { LoadingSpinnerComponent } from './shared/components/loading-spinner/loading-spinner.component';
-import { sharedReducer } from './shared/state/shared.reducer';
 
 
 @NgModule({
@@ -33,7 +32,7 @@ import { sharedReducer } from './shared/state/shared.reducer';
       logOnly: environment.production, // Restrict extension to log-only mod
     })
   ],
-  providers: [],
+  providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthTokenInterceptor, multi: true }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
