@@ -1,39 +1,34 @@
+import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { CounterComponent } from './counter/counter/counter.component';
-import { CounterOutputComponent } from './counter/counter-output/counter-output.component';
-import { CounterButtonsComponent } from './counter/counter-buttons/counter-buttons.component';
+import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
-import { counterReducer } from './counter/state/counter.reducer';
-import { CustomCounterInputComponent } from './counter/custom-counter-input/custom-counter-input.component';
-import { FormsModule } from '@angular/forms';
-import { CustomNameComponent } from './counter/custom-name/custom-name.component';
-import { HomeComponent } from './home/home.component';
-import { HeaderComponent } from './shared/components/header/header.component';
-import { PostslistComponent } from './posts/postslist/postslist.component';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from 'src/environments/environment';
+import { AppRoutingModule } from './app-routing.module';
+import { appReducers as appReducers } from './app-state/app.state';
+import { AppComponent } from './app.component';
+import { AuthEffects } from './auth/state/auth.effects';
+import { authReducer } from './auth/state/auth.reducer';
+import { HomeComponent } from './home/home.component';
+import { HeaderComponent } from './shared/components/header/header.component';
+import { LoadingSpinnerComponent } from './shared/components/loading-spinner/loading-spinner.component';
+import { sharedReducer } from './shared/state/shared.reducer';
+
 
 @NgModule({
   declarations: [
     AppComponent,
-    CounterComponent,
-    CounterOutputComponent,
-    CounterButtonsComponent,
-    CustomCounterInputComponent,
-    CustomNameComponent,
     HomeComponent,
     HeaderComponent,
-    PostslistComponent
+    LoadingSpinnerComponent
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     AppRoutingModule,
-    FormsModule,
-    StoreModule.forRoot({count: counterReducer}),
+    EffectsModule.forRoot([AuthEffects]),
+    StoreModule.forRoot(appReducers),
     StoreDevtoolsModule.instrument({
       logOnly: environment.production, // Restrict extension to log-only mod
     })

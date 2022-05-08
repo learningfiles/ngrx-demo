@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import { AppState } from 'src/app/app-state/app.state';
 import { changeCounterName } from '../state/counter.actions';
 import { getCounterName } from '../state/counter.selectors';
-import { CounterState } from '../state/counter.state';
 
 @Component({
   selector: 'app-custom-name',
@@ -14,7 +14,7 @@ export class CustomNameComponent implements OnInit {
 
   counterName$: Observable<string> = this.store.select(getCounterName);
 
-  constructor(private store: Store<{count: CounterState}>) { }
+  constructor(private store: Store<AppState>) { }
 
   ngOnInit(): void {
   }
