@@ -22,8 +22,6 @@ const routes: Routes = [
     LoginComponent,
     SignupComponent
   ],
-  imports: [ReactiveFormsModule, CommonModule, RouterModule.forChild(routes),
-    EffectsModule.forFeature([AuthEffects]),
-  ]
+  imports: [ReactiveFormsModule, CommonModule, RouterModule.forChild(routes)]
 })
 export class AuthModule { }

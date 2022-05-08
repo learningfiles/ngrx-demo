@@ -29,7 +29,7 @@ export class SignupComponent implements OnInit {
     // show spinner
     this.store.dispatch(toggleSpinner({ show: true }));
     // login action dispatched
-    this.store.dispatch(signupCheck({ email: 'rhysand@gmail.com', password: '123456' }));
+    this.store.dispatch(signupCheck({ email: 'feyre@gmail.com', password: '123456' }));
   }
 
 }

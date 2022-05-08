@@ -1,10 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { AppState } from 'src/app/app-state/app.state';
 import { AuthResponse, SignUpResponse } from 'src/app/model/auth-response';
 import { User } from 'src/app/model/user';
 import { environment } from 'src/environments/environment';
+import { autoLogout, logout } from '../state/auth.action';
 import { AuthState } from '../state/auth.state';
 
 @Injectable({
@@ -12,11 +15,13 @@ import { AuthState } from '../state/auth.state';
 })
 export class AuthService {
 
+  logoutTimer: any;
+
   loginUrl = 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=';
 
   signnUrl = 'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private store: Store<AppState>) { }
 
   login(email, password): Observable<User> {
     return this.http.post<AuthResponse>(`${this.loginUrl}${environment.FIRBASE_API_KEY}`, {
@@ -55,18 +60,28 @@ export class AuthService {
 
     const remainingTime = expTime - currentTime;
 
-    //do we need a variable to store this
-    setTimeout(() => {
+    //do we need a variable to store this:- yes we need it to clearTimeout() for logout
+    this.logoutTimer = setTimeout(() => {
       //logout
+      this.store.dispatch(autoLogout());
       console.log('logout');
     }, remainingTime);
+  }
+
+  clearLocalStorageAndTimer() {
+    localStorage.removeItem('userData');
+    if (this.logoutTimer) {
+      clearTimeout(this.logoutTimer);
+      this.logoutTimer = null;
+    }
   }
 
   getUserFromLocalStorage() {
     let userDataString = localStorage.getItem('userData');
     if (userDataString) {
       const userData = JSON.parse(userDataString);
-      const user: User = new User(userData.email, userData.idToken, userData.localId, new Date(userData.expirationdate));
+      const user: User = new User(userData.email, userData.token, userData.userId, new Date(userData.expirationdate));
+      this.runLogoutTimer(user);
       return user;
     }
     return null;

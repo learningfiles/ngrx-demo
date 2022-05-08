@@ -8,6 +8,7 @@ import { environment } from 'src/environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { appReducers as appReducers } from './app-state/app.state';
 import { AppComponent } from './app.component';
+import { AuthEffects } from './auth/state/auth.effects';
 import { authReducer } from './auth/state/auth.reducer';
 import { HomeComponent } from './home/home.component';
 import { HeaderComponent } from './shared/components/header/header.component';
@@ -26,7 +27,7 @@ import { sharedReducer } from './shared/state/shared.reducer';
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
-    EffectsModule.forRoot([]),
+    EffectsModule.forRoot([AuthEffects]),
     StoreModule.forRoot(appReducers),
     StoreDevtoolsModule.instrument({
       logOnly: environment.production, // Restrict extension to log-only mod
