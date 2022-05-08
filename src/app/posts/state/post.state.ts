@@ -6,8 +6,5 @@ export interface PostState {
 }
 
 export const initialPostState: PostState = {
-  posts: [
-    {id: '1', title: 'some title 1', description: 'some desc 1'},
-    {id: '2', title: 'some title 2', description: 'some desc 2'},
-  ]
+  posts: null
 }

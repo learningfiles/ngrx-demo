@@ -24,12 +24,12 @@ export class AddPostComponent implements OnInit {
   }
 
   onAddPost() {
-    const post:Post = {
+    const post: Post = {
       title: this.addPostForm.value.title,
       description: this.addPostForm.value.description
     };
 
-    this.store.dispatch(addPost({newPost: post}))
+    this.store.dispatch(addPost({ post }))
   }
 
   showDescriptionErrors() {
