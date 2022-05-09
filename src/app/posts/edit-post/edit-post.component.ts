@@ -16,13 +16,22 @@ import { updatePost } from '../state/post.actions';
 })
 export class EditPostComponent implements OnInit {
 
-  constructor(private fb: FormBuilder, private route: ActivatedRoute, private store: Store<AppState>) { }
+  constructor(private fb: FormBuilder, private store: Store<AppState>) { }
 
   updatePostForm: FormGroup;
 
-  selectedPost$ = this.route.paramMap.pipe(
-    map(params => params.get('id')),
-    switchMap(id => this.store.select(getPostById, { id: id })),
+
+  // as we have params present in our store we can use that directly
+  // so we can avoid using activatedRoute in our component
+
+  // selectedPostOld$ = this.route.paramMap.pipe(
+  //   map(paramMap => paramMap.get('id')),
+  //   switchMap(id => this.store.select(getPostById, { id: id })),
+  //   filter(val => !!val),
+  //   tap(post => this.initFormWith(post))
+  // );
+
+  selectedPost$ = this.store.select(getPostById).pipe(
     filter(val => !!val),
     tap(post => this.initFormWith(post))
   );

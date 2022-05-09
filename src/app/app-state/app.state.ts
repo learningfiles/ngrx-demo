@@ -1,3 +1,4 @@
+import { routerReducer, RouterReducerState } from "@ngrx/router-store";
 import { authReducer } from "../auth/state/auth.reducer";
 import { AUTH_STATE_NAME } from "../auth/state/auth.selector";
 import { AuthState } from "../auth/state/auth.state";
@@ -14,13 +15,15 @@ export interface AppState {
   // auth: AuthState;
   shared: SharedState;
   [AUTH_STATE_NAME]: AuthState;
+  router: RouterReducerState
 }
 
 export const appReducers = {
   // count: counterReducer,
   // posts: postReducer
   shared: sharedReducer,
-  [AUTH_STATE_NAME]: authReducer
+  [AUTH_STATE_NAME]: authReducer,
+  router: routerReducer
 }
 
 export enum AppStates {
