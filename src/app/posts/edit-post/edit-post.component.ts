@@ -57,7 +57,7 @@ export class EditPostComponent implements OnInit {
       title: this.updatePostForm.value.title,
       description: this.updatePostForm.value.description
     };
-    this.store.dispatch(updatePost({updatedPost: updatedPost}));
+    this.store.dispatch(updatePost({ post: updatedPost }));
   }
 
 }

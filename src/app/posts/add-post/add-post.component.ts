@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/app-state/app.state';
 import { Post } from 'src/app/model/post.model';
+import { toggleSpinner } from 'src/app/shared/state/shared.actions';
 import { addPost } from '../state/post.actions';
 
 @Component({
@@ -24,12 +25,14 @@ export class AddPostComponent implements OnInit {
   }
 
   onAddPost() {
-    const post:Post = {
+    const post: Post = {
       title: this.addPostForm.value.title,
       description: this.addPostForm.value.description
     };
 
-    this.store.dispatch(addPost({newPost: post}))
+    this.store.dispatch(toggleSpinner());
+
+    this.store.dispatch(addPost({ post }))
   }
 
   showDescriptionErrors() {

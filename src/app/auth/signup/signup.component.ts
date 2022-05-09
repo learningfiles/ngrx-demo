@@ -27,7 +27,7 @@ export class SignupComponent implements OnInit {
     // const email = this.signUpForm.value.email;
     // const password = this.signUpForm.value.password;
     // show spinner
-    this.store.dispatch(toggleSpinner({ show: true }));
+    this.store.dispatch(toggleSpinner());
     // login action dispatched
     this.store.dispatch(signupCheck({ email: 'feyre@gmail.com', password: '123456' }));
   }
