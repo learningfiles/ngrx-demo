@@ -5,9 +5,9 @@ import { initialSharedState } from "./shared.state";
 export const sharedReducer = createReducer(
   initialSharedState,
 
-  on(toggleSpinner, (state, { show }) => ({
+  on(toggleSpinner, (state, action) => ({
     ...state,
-    showLoading: show
+    showLoading: !state.showLoading
   })),
 
   on(saveErrorMsg, (state, { errorMsg }) => ({

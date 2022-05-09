@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { catchError, map, switchMap, tap } from 'rxjs/operators';
+import { catchError, concatMap, exhaustMap, map, mergeMap, switchMap, tap } from 'rxjs/operators';
 import { AppState } from 'src/app/app-state/app.state';
 import { Post } from 'src/app/model/post.model';
 import { toggleSpinner } from 'src/app/shared/state/shared.actions';
@@ -17,11 +17,11 @@ export class PostEffects {
   loadAllPosts$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(loadAllPosts),
-      switchMap(action => {
+      exhaustMap(action => {
         return this.postsService.getAllPosts().pipe(
           //tap(console.log)
           map(posts => {
-            this.store.dispatch(toggleSpinner({ show: false }));
+            this.store.dispatch(toggleSpinner());
             return loadAllPostsSuccess({ posts });
           }),
           // catchError(error => {
@@ -38,10 +38,10 @@ export class PostEffects {
   savePost$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(addPost),
-      switchMap(({ post }) => {
+      concatMap(({ post }) => {
         return this.postsService.addPost(post).pipe(
           map((post: Post) => {
-            this.store.dispatch(toggleSpinner({ show: false }));
+            this.store.dispatch(toggleSpinner());
             return addPostSuccess({ newPost: post });
           })
         )
@@ -52,7 +52,7 @@ export class PostEffects {
   updatePost$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(updatePost),
-      switchMap(action => {
+      concatMap(action => {
         return this.postsService.updatePost(action.post).pipe(
           map(post => updatePostSuccess({ updatedPost: action.post }))
         )
@@ -62,7 +62,7 @@ export class PostEffects {
   deletePost$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(deletePost),
-      switchMap(action => {
+      mergeMap(action => {
         return this.postsService.deletePost(action.id).pipe(
           map(post => deletePostSuccess({ idToBeDeleted: action.id }))
         )

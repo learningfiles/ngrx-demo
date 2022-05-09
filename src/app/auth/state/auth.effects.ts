@@ -20,12 +20,12 @@ export class AuthEffects {
       switchMap(action => {
         return this.authService.login(action.email, action.password).pipe(
           map(data => {
-            this.store.dispatch(toggleSpinner({ show: false }));
+            this.store.dispatch(toggleSpinner());
             this.authService.saveUserDataInLocalStorage(data);
             return loginSuccess({ auth: data, canRedirectToHome: true });
           }),
           catchError(errResponse => {
-            this.store.dispatch(toggleSpinner({ show: false }));
+            this.store.dispatch(toggleSpinner());
             const errorMsg = errResponse.error.error.message;
             return of(saveErrorMsg({ errorMsg }));
           })
@@ -50,12 +50,12 @@ export class AuthEffects {
       ofType(signupCheck),
       switchMap(({ email, password }) => this.authService.signUp(email, password).pipe(
         map(user => {
-          this.store.dispatch(toggleSpinner({ show: false }));
+          this.store.dispatch(toggleSpinner());
           this.authService.saveUserDataInLocalStorage(user);
           return signupSuccess({ auth: user, canRedirectToHome: true });
         }),
         catchError(errResponse => {
-          this.store.dispatch(toggleSpinner({ show: false }));
+          this.store.dispatch(toggleSpinner());
           const errorMsg = errResponse.error.error.message;
           return of(saveErrorMsg({ errorMsg }));
         })

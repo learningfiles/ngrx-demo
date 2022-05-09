@@ -1,3 +1,6 @@
 export interface PostResponse {
-  [id: string]: { title: string, description: string }
+  id: string;
+  title: string;
+  body: string;
+  userId?: any;
 }

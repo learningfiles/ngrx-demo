@@ -5,6 +5,7 @@ import { map } from "rxjs/operators";
 import { PostResponse } from "src/app/model/post-response";
 import { Post } from "src/app/model/post.model";
 
+const apiUrl = 'https://jsonplaceholder.typicode.com/posts';
 @Injectable({
   providedIn: 'root'
 })
@@ -12,28 +13,27 @@ export class PostsService {
   constructor(private http: HttpClient) { }
 
   getAllPosts(): Observable<Post[]> {
-    return this.http.get<PostResponse>('http://vue-completecourse.firebaseio.com/posts.json').pipe(
-      map(postResponses =>
-        Object.entries(postResponses)
-          .map(([id, value]) => ({ id, title: value.title, description: value.description }))
-          .filter(post => post.title)
-      )
+    return this.http.get<PostResponse[]>(apiUrl).pipe(
+      map(postResponses => postResponses.map(postResponse => ({ id: postResponse.id, title: postResponse.title, description: postResponse.body })))
     );
   }
 
   addPost(post: Post): Observable<Post> {
-    return this.http.post<{ name: string }>('http://vue-completecourse.firebaseio.com/posts.json', post).pipe(
-      map(data => ({ id: data.name, title: post.title, description: post.description }))
+    return this.http.post<PostResponse>(apiUrl, {
+      ...post,
+      userId: 1
+    }).pipe(
+      map(data => ({ id: data.id, title: data.title, description: data.body }))
     );
   }
 
   updatePost(post: Post) {
-    const postsRequest = { [post.id]: { title: post.title, description: post.description } };
+    const postsRequest: PostResponse = { id: post.id, body: post.description, title: post.title, userId: 1 };
 
-    return this.http.patch('http://vue-completecourse.firebaseio.com/posts.json', postsRequest);
+    return this.http.patch(`${apiUrl}/${post.id}`, postsRequest);
   }
 
   deletePost(id: string) {
-    return this.http.delete('http://vue-completecourse.firebaseio.com/posts.json?id=' + id);
+    return this.http.delete(`${apiUrl}/${id}`);
   }
 }
